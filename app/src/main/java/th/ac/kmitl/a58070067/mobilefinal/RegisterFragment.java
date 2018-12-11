@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 public class RegisterFragment extends Fragment {
     DatabaseHelper db;
@@ -47,7 +48,7 @@ public class RegisterFragment extends Fragment {
                     Toast.makeText(getActivity(), "SOME FIELD  IS EMPTY", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    Log.d("USER", "GO TO BMI");
+
                     if (validate(username, name,password,age)) {
 
 

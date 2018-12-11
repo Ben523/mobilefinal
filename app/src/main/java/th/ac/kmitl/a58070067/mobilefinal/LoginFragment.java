@@ -27,6 +27,15 @@ public class LoginFragment extends Fragment {
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         db = new DatabaseHelper(this.getContext());
+        SharedPreferences sp = getContext().getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
+        String user_id = sp.getString("username", "");
+        if(!user_id.equals(""))
+        {
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_view,new HomeFragment())
+                    .commit();
+        }
         initLoginBtn(savedInstanceState);
         initRegisterBtn(savedInstanceState);
     }
@@ -49,8 +58,8 @@ public class LoginFragment extends Fragment {
                     Log.d("USER","USER OR PASSWORD IS EMPTY");
 
                 }else{
-                    Log.d("USER","GO TO BMI");
-                    Log.d("USER",username);
+
+
                     User currentUser = db.Authenticate(new User(username, null, 0, password));
                     if (currentUser != null) {
                         Toast.makeText(getActivity(), "Successfully Logged in!", Toast.LENGTH_SHORT).show();

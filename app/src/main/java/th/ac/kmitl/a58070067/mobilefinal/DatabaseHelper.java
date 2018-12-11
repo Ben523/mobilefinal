@@ -126,5 +126,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
+    public void updateUser(User user,String user_id) {
+
+        SQLiteDatabase db  = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("username", user.getUser_id());
+        values.put("name", user.getName());
+        values.put("age", user.getAge());
+        values.put("password", user.getPassword());
+
+        db.update("users", values, "username=\""+user_id+"\" AND name=\""+user.getName()+"\" AND age=\""+user.getAge()+"\" AND password=\""+user.getPassword()+"\"", null);
+
+        db.close();
+    }
+
 
 }
