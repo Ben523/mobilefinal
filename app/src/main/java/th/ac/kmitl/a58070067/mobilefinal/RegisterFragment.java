@@ -25,6 +25,7 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getActivity().setTitle("Register");
         db = new DatabaseHelper(this.getContext());
         initRegisterBtn(savedInstanceState);
     }
