@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class HomeFragment extends Fragment {
+    private String username;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class HomeFragment extends Fragment {
     {
         SharedPreferences sp = getContext().getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
         String name = sp.getString("name", "");
+        username = sp.getString("username","");
         String total_text = "Hello "+name;
         TextView text1 = getView().findViewById(R.id.home_name);
         text1.setText(total_text);
@@ -82,7 +84,7 @@ public class HomeFragment extends Fragment {
         String ret = "";
 
         try {
-            InputStream inputStream = context.openFileInput("config.txt");
+            InputStream inputStream = context.openFileInput(username+".txt");
 
             if ( inputStream != null ) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);

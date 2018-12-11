@@ -14,11 +14,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 public class ProfileSetupFragment extends Fragment {
     private DatabaseHelper db;
+    private String username;
     private User user;
     @Nullable
     @Override
@@ -40,16 +45,18 @@ public class ProfileSetupFragment extends Fragment {
         EditText nameTxt = getView().findViewById(R.id.profile_name);
         EditText ageTxt = getView().findViewById(R.id.profile_age);
         EditText passwordTxt = getView().findViewById(R.id.profile_password);
+        EditText quoteText = getView().findViewById(R.id.profile_quote);
         SharedPreferences sp = getContext().getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
-        String user_id = sp.getString("username", "");
+        username = sp.getString("username", "");
         String name = sp.getString("name", "");
         int  age = sp.getInt("age", 10);
         String password = sp.getString("password","");
-        user_idTxt.setText(user_id);
+        user_idTxt.setText(username);
         nameTxt.setText(name);
         ageTxt.setText(Integer.toString(age));
         passwordTxt.setText(password);
-        user = new User(user_id,name,age,password);
+        quoteText.setText(readFromFile(getContext()));
+        user = new User(username,name,age,password);
 
     }
 
@@ -65,7 +72,7 @@ public class ProfileSetupFragment extends Fragment {
                 EditText passText = getView().findViewById(R.id.profile_password);
                 EditText quoteText = getView().findViewById(R.id.profile_quote);
 
-                String username = userID.getText().toString();
+                username = userID.getText().toString();
                 String name = nameText.getText().toString();
                 int age = Integer.parseInt(ageText.getText().toString());
                 String password = passText.getText().toString();
@@ -92,7 +99,7 @@ public class ProfileSetupFragment extends Fragment {
 
     private void writeToFile(String data,Context context) {
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("config.txt", Context.MODE_PRIVATE));
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(user.getUser_id()+".txt", Context.MODE_PRIVATE));
             outputStreamWriter.write(data);
             outputStreamWriter.close();
         }
@@ -138,8 +145,9 @@ public class ProfileSetupFragment extends Fragment {
                 valid = true;
 
             } else {
-                valid = false;
+
                 Toast.makeText(getActivity(), "Please enter age between 10 and 80", Toast.LENGTH_SHORT).show();
+                return false;
             }
         }
 
@@ -163,5 +171,35 @@ public class ProfileSetupFragment extends Fragment {
 
 
         return valid;
+    }
+
+    private String readFromFile(Context context) {
+
+        String ret = "";
+
+        try {
+            InputStream inputStream = context.openFileInput(username+".txt");
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append(receiveString);
+                }
+
+                inputStream.close();
+                ret = stringBuilder.toString();
+            }
+        }
+        catch (FileNotFoundException e) {
+            Log.e("user", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("user", "Can not read file: " + e.toString());
+        }
+
+        return ret;
     }
 }
