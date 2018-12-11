@@ -114,15 +114,17 @@ public class ProfileSetupFragment extends Fragment {
 
         //Handling validation for UserName field
         if (username.isEmpty()) {
-            valid = false;
+
             Toast.makeText(getActivity(), "Please enter valid username", Toast.LENGTH_SHORT).show();
+            return false;
         } else {
             if (username.length() > 5 && username.length() < 13) {
                 valid = true;
 
             } else {
-                valid = false;
+
                 Toast.makeText(getActivity(), "username is too short", Toast.LENGTH_SHORT).show();
+                return false;
             }
         }
 
