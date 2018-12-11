@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">mobilefinal</string>
+    <string name="user_id">User id</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register New Account</string>
+    <string name="name">name</string>
+    <string name="age">Age</string>
+    <string name="profile_setup">PROFILE SETUP</string>
+    <string name="friends">MY FRIENDS</string>
+    <string name="sign_out">SIGN OUT</string>
+    <string name="quote">quote</string>
+    <string name="save">save</string>
+
+</resources>
